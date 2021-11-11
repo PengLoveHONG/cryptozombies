@@ -21,4 +21,16 @@ contract ZombieFactory {
     // length (uint[] dynamicArray) ones. The public keyword will declare the array as public, thus
     // Solidity will automatically create a getter method for it.
     Zombie[] public people;
+
+    // Functions, as variables, also have a visibility.
+    // Function parameters can either be passed as an argument by value or by reference.
+    // - By values means that the Solidity compiler creates a new copy of the parameter's value and
+    // passes it to your function. This allows your function to modify the value without worrying
+    // that the value of the initial parameter gets changed.
+    // - By reference means that the function is called with a reference (pointer) to the original
+    // variable. Thus, if the function changes the value of the variable received, it also changes
+    // the value of the original variable.
+    function createZombie(string memory _name, uint _dna) public {
+
+    }
 }
