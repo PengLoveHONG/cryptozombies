@@ -34,11 +34,21 @@ contract ZombieFactory {
     // that the value of the initial parameter gets changed.
     // - By reference means that the function is called with a reference (pointer) to the original
     // variable. Thus, if the function changes the value of the variable received, it also changes
-    // the value of the original variable.
+    // the value of the original variable. This is required for all reference types such as arrays,
+    // structs, mappings, and strings.
     // Another convention is to name functions parameters with an underscore to differentiate them
     // from state variables.
+    // 3) Functions also have what we call modifiers based on what the function is doing, ie.
+    // viewing or modifying the data of the application. It is possible to declare a:
+    // - view function if the function is only viewing the data and not modifying it.
+    // - pure function if the function is not even viewing the data of the application.
+    //   ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
     function _createZombie(string memory _name, uint _dna) private {
         // array.push() adds something at the end of the array
         zombies.push(Zombie(_name, _dna));
+    }
+
+    function _generateRandomDna(string memory _str) private view returns (uint) {
+        
     }
 }
