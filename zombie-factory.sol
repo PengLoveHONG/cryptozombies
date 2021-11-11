@@ -10,4 +10,10 @@ contract ZombieFactory {
     // Its size is 256 bits but it's possible to declare uints with less bits (uint8, unit16...).
     uint dnaDigits = 16;
     uint dnaModulus = 10 ** dnaDigits;
+
+    // Structs allow to create more complicated data types
+    struct Zombie {
+        string name;
+        uint dna;
+    }
 }
