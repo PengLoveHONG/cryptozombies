@@ -20,7 +20,7 @@ contract ZombieFactory {
     // There are two types of arrays in Solidity: fixed length (uint[2] fixedArray) and dynamic
     // length (uint[] dynamicArray) ones. The public keyword will declare the array as public, thus
     // Solidity will automatically create a getter method for it.
-    Zombie[] public people;
+    Zombie[] public zombies;
 
     // Functions, as variables, also have a visibility.
     // Function parameters can either be passed as an argument by value or by reference.
@@ -31,6 +31,7 @@ contract ZombieFactory {
     // variable. Thus, if the function changes the value of the variable received, it also changes
     // the value of the original variable.
     function createZombie(string memory _name, uint _dna) public {
-
+        // array.push() adds something at the end of the array
+        zombies.push(Zombie(_name, _dna));
     }
 }
