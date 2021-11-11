@@ -48,7 +48,17 @@ contract ZombieFactory {
         zombies.push(Zombie(_name, _dna));
     }
 
+    // Returns a semi-random unsigned integer.
+    // This function is not secured at all because it uses keccak256 to produce a semi-random
+    // integer which is very insecure. Indeed, an attacker could predict the result of the function.
+    // What is keccak256? Ethereum has the hash function keccak256 built in, which is a version of
+    // SHA3. A hash function basically maps an input into a random 256-bit hexadecimal number. A
+    // slight change in the input will cause a large change in the hash. It also expects a single
+    // parameter of type bytes, that's why we have to "pack" any parameters with abi.encodePacked()
+    // before calling the keccak256 function.
     function _generateRandomDna(string memory _str) private view returns (uint) {
-        
+        // To cast a value into another data type, simply used type(value)
+        uint rand = uint(keccak256(abi.encodePacked(_str)));
+        return rand % dnaModulus;
     }
 }
