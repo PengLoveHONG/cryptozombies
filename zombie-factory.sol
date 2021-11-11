@@ -22,15 +22,22 @@ contract ZombieFactory {
     // Solidity will automatically create a getter method for it.
     Zombie[] public zombies;
 
-    // Functions, as variables, also have a visibility.
-    // Function parameters can either be passed as an argument by value or by reference.
+    // 1) Functions, as variables, also have a visibility.
+    // By default, functions are public meaning that anyone (or any other contract) can call the
+    // functions of this contract and execute its code. It can make the contract vulnerable to
+    // attacks so it's best practice to mark the functions as private by default, and then only
+    // make public some specific functions public. A convention is to start private function names
+    // with an underscore.
+    // 2) Function parameters can either be passed as an argument by value or by reference.
     // - By values means that the Solidity compiler creates a new copy of the parameter's value and
     // passes it to your function. This allows your function to modify the value without worrying
     // that the value of the initial parameter gets changed.
     // - By reference means that the function is called with a reference (pointer) to the original
     // variable. Thus, if the function changes the value of the variable received, it also changes
     // the value of the original variable.
-    function createZombie(string memory _name, uint _dna) public {
+    // Another convention is to name functions parameters with an underscore to differentiate them
+    // from state variables.
+    function _createZombie(string memory _name, uint _dna) private {
         // array.push() adds something at the end of the array
         zombies.push(Zombie(_name, _dna));
     }
