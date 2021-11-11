@@ -16,4 +16,9 @@ contract ZombieFactory {
         string name;
         uint dna;
     }
+
+    // There are two types of arrays in Solidity: fixed length (uint[2] fixedArray) and dynamic
+    // length (uint[] dynamicArray) ones. The public keyword will declare the array as public, thus
+    // Solidity will automatically create a getter method for it.
+    Zombie[] public people;
 }
