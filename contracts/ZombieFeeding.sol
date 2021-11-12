@@ -70,9 +70,15 @@ contract ZombieFeeding is ZombieFactory {
         uint256 _zombieId,
         uint256 _targetDna,
         string memory _species
-    ) public {
+    ) internal {
+        // Check that the person executing the function owns the zombie
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
+
+        // Check that the zombie is ready to feed
+        require(_isReady(myZombie));
+
+        // Compute the dna of the new zombie
         _targetDna = _targetDna % dnaModulus;
         uint256 newDna = (myZombie.dna + _targetDna) / 2;
         // If the species used to feed the zombie is a kitty, transform the zombie into a cat
@@ -85,7 +91,10 @@ contract ZombieFeeding is ZombieFactory {
         ) {
             newDna = newDna - (newDna % 100) + 99;
         }
+
+        // Create the zombie
         _createZombie("NoName", newDna);
+        _triggerCooldown(myZombie);
     }
 
     function feedOnKitty(uint256 _zombieId, uint256 _kittyId) public {
