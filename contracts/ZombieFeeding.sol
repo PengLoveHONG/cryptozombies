@@ -24,9 +24,28 @@ interface KittyInterface {
 }
 
 contract ZombieFeeding is ZombieFactory {
-    // Read from the CryptoKitties smart contract
-    address cryptoKittiesAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
-    KittyInterface kittyContract = KittyInterface(cryptoKittiesAddress);
+    // Since contract are "immutable" (even though it's possible to upgrade them with proxies but
+    // it's out of the scope of this introduction to Solidity), it's better to be able to update
+    // the address of the kittyContract in case the smart contract is not working properly. Indeed,
+    // it would also make our smart contract not work properly.
+    KittyInterface kittyContract;
+
+    // This function uses the onlyOwner modifier defined in the Ownable smart contract of
+    // @openzeppelin. What is a modifier? modifier onlyOwner(). It's a kind of half-function that
+    // is used to modify other functions, usually to check some requirements prior to execution.
+    // In this case, onlyOwner can be used to limit access so only the owner of the contract can run
+    // this function.
+    // Here is the onlyOwner modifier's implementation:
+    // modifier onlyOwner() {
+    //   require(isOwner());
+    //   _;
+    // }
+    // When the setKittyContractAddress() function is executed, the code of the onlyOwner() modifier
+    // is first executed. Once it reaches the "_;" instruction, it goes back to execute the code of
+    // the setKittyContractAddress() function.
+    function setKittyContractAddress(address _address) external onlyOwner {
+        kittyContract = KittyInterface(_address);
+    }
 
     // In Solidity, there are two locations to store variables — in storage and in memory.
     // Storage refers to variables stored permanently on the blockchain while memory variables are

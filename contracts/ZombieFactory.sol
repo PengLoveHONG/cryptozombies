@@ -4,7 +4,16 @@
 // Define the version of the Solidity compiler to use
 pragma solidity ^0.8.0;
 
-contract ZombieFactory {
+// To use openzeppelin smart contracts, install them using npm:
+// $ npm install @openzeppelin/contracts
+// The Ownable smart contract is a standard in Solidity and Ethereum Dapps development. When a
+// contract is created, its constructor sets the owner to msg.sender (the person who deployed it).
+// It also adds an onlyOwner modifier, which restricts access to certain functions to only the owner
+// of the smart contract. On top of that, it allows the owner to transfer the ownership to someone
+// else.
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract ZombieFactory is Ownable {
     // Events are a way for the contract to communicate that something happened on the blockchain
     // to the front-end app, which can be 'listening' for certain events and take action when they
     // happen.
