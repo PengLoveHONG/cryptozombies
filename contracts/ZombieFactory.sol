@@ -53,7 +53,7 @@ contract ZombieFactory is Ownable {
         uint256 dna;
         uint32 level;
         // Cooldown period during which the zombie cannot feed or attack again
-        uint32 readyTime;
+        uint64 readyTime;
     }
 
     // There are two types of arrays in Solidity: fixed length (uint[2] fixedArray) and dynamic
@@ -93,8 +93,14 @@ contract ZombieFactory is Ownable {
     // - pure function if the function is not even viewing the data of the application.
     //   ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
     function _createZombie(string memory _name, uint256 _dna) internal {
-        // array.push() adds something at the end of the array
-        zombies.push(Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime)));
+        // array.push() adds something at the end of the array.
+        // block.timestamp + cooldownTime will equal the current unix timestamp (in seconds) plus
+        // the number of seconds in 1 day - which will equal the unix timestamp 1 day from now.
+        // By default, block.timestamp returns a uint256 so we must cast it. It's possible to either
+        // cast it to uint32 or uint64. The first option cost less gas but this will lead to the
+        // "Year 2038" problem, when 32-bit unix timestamps will overflow and break a lot of legacy
+        // systems. The second option cost more gas but will last longer over time.
+        zombies.push(Zombie(_name, _dna, 1, uint64(block.timestamp + cooldownTime)));
         uint256 id = zombies.length - 1;
         // msg.sender is a global variable available to all functions and it refers to the address
         // of the person (or smart contract) who called the current function. Since every contract
