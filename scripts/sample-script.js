@@ -28,6 +28,14 @@ async function main() {
   await zombieFactory.deployed();
 
   console.log("ZombieFactory deployed to:", zombieFactory.address);
+
+  // Deploy the ZombieFeeding contract
+  const ZombieFeeding = await hre.ethers.getContractFactory("ZombieFeeding");
+  const zombieFeeding = await ZombieFeeding.deploy();
+
+  await zombieFeeding.deployed();
+
+  console.log("ZombieFeeding deployed to:", zombieFeeding.address);
 }
 
 // We recommend this pattern to be able to use async/await everywhere
