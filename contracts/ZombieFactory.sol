@@ -34,11 +34,26 @@ contract ZombieFactory is Ownable {
     // Its size is 256 bits but it's possible to declare uints with less bits (uint8, unit16...).
     uint256 dnaDigits = 16;
     uint256 dnaModulus = 10**dnaDigits;
+    uint cooldownTime = 1 days;
 
     // Structs allow to create more complicated data types
+    // Inside a struct, it's possible to pack uint variables together to take up less storage. This
+    // would save some gas when the contract is deployed and also when a function using this struct
+    // is executed. How to use struct packing? Here is an example, instead of writing a struct using
+    // the first form, prefer the second form:
+    // 1) struct X { uint a; string b; uint c; }
+    // 2) struct X { uint32 a; uint32 c; string b; }
+    // Normally there's no benefit to using these sub-types because Solidity reserves 256 bits of
+    // storage regardless of the uint size. For example, using uint8 instead of uint (uint256) won't
+    // save you any gas. So why does it save some gas? If you have multiple uints inside a struct, 
+    // using a smaller-sized uint when possible will allow Solidity to pack these variables together
+    // to take up less storage.
     struct Zombie {
         string name;
         uint256 dna;
+        uint32 level;
+        // Cooldown period during which the zombie cannot feed or attack again
+        uint32 readyTime;
     }
 
     // There are two types of arrays in Solidity: fixed length (uint[2] fixedArray) and dynamic
@@ -79,7 +94,7 @@ contract ZombieFactory is Ownable {
     //   ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
     function _createZombie(string memory _name, uint256 _dna) internal {
         // array.push() adds something at the end of the array
-        zombies.push(Zombie(_name, _dna));
+        zombies.push(Zombie(_name, _dna, 1, uint32(block.timestamp + cooldownTime)));
         uint256 id = zombies.length - 1;
         // msg.sender is a global variable available to all functions and it refers to the address
         // of the person (or smart contract) who called the current function. Since every contract
