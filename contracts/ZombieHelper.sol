@@ -6,12 +6,6 @@ import "./ZombieFeeding.sol";
 contract ZombieHelper is ZombieFeeding {
     uint256 levelUpFee = 0.001 ether;
 
-    // Modifiers can also take arguments
-    modifier isOwnedByTheCaller(uint256 _zombieId) {
-        require(msg.sender == zombieToOwner[_zombieId]);
-        _;
-    }
-
     modifier aboveLevel(uint256 _level, uint256 _zombieId) {
         require(zombies[_zombieId].level >= _level);
         _;

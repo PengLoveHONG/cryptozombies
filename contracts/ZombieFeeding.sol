@@ -30,6 +30,12 @@ contract ZombieFeeding is ZombieFactory {
     // it would also make our smart contract not work properly.
     KittyInterface kittyContract;
 
+    // Modifiers can also take arguments
+    modifier isOwnedByTheCaller(uint256 _zombieId) {
+        require(msg.sender == zombieToOwner[_zombieId]);
+        _;
+    }
+
     // This function uses the onlyOwner modifier defined in the Ownable smart contract of
     // @openzeppelin. What is a modifier? modifier onlyOwner(). It's a kind of half-function that
     // is used to modify other functions, usually to check some requirements prior to execution.
@@ -70,9 +76,8 @@ contract ZombieFeeding is ZombieFactory {
         uint256 _zombieId,
         uint256 _targetDna,
         string memory _species
-    ) internal {
+    ) internal isOwnedByTheCaller(_zombieId) {
         // Check that the person executing the function owns the zombie
-        require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
 
         // Check that the zombie is ready to feed
