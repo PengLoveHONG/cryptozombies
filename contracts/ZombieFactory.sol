@@ -68,6 +68,12 @@ contract ZombieFactory {
         // array.push() adds something at the end of the array
         zombies.push(Zombie(_name, _dna));
         uint id = zombies.length - 1;
+        // msg.sender is a global variable available to all functions and it refers to the address
+        // of the person (or smart contract) who called the current function. Since every contract
+        // sits on the blockchain, waiting until someone calls one of its functions, there will
+        // always be a msg.sender.
+        zombieToOwner[id] = msg.sender;
+        ownerZombieCount[msg.sender]++;
         emit NewZombie(id, _name, _dna);
     }
 
