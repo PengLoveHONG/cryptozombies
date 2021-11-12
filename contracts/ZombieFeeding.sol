@@ -3,6 +3,23 @@ pragma solidity ^0.8.0;
 
 import "./ZombieFactory.sol";
 
+// Interface that enables this contract to interact with another contract, here the CryptoKitty
+// contract living on the Ethereum blockchain.
+interface KittyInterface {
+  function getKitty(uint256 _id) external view returns (
+    bool isGestating,
+    bool isReady,
+    uint256 cooldownIndex,
+    uint256 nextActionAt,
+    uint256 siringWithId,
+    uint256 birthTime,
+    uint256 matronId,
+    uint256 sireId,
+    uint256 generation,
+    uint256 genes
+  );
+}
+
 contract ZombieFeeding is ZombieFactory {
     // In Solidity, there are two locations to store variables — in storage and in memory.
     // Storage refers to variables stored permanently on the blockchain while memory variables are
