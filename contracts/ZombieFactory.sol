@@ -38,6 +38,11 @@ contract ZombieFactory {
     // Solidity will automatically create a getter method for it.
     Zombie[] public zombies;
 
+    // Mappings are another way of storing organized data, it's a key-value store for storing and
+    // looking up data
+    mapping(uint => address) public zombieToOwner;
+    mapping(address => uint) ownerZombieCount;
+
     // 1) Functions, as variables, also have a visibility.
     // By default, functions are public meaning that anyone (or any other contract) can call the
     // functions of this contract and execute its code. It can make the contract vulnerable to
