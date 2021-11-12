@@ -39,6 +39,15 @@ contract ZombieHelper is ZombieFeeding {
         zombies[_zombieId].level++;
     }
 
+    function withdraw() external onlyOwner {
+        address payable _owner = payable(address(uint160(owner())));
+        _owner.transfer(address(this).balance);
+    }
+
+    function setLevelUpFee(uint256 _newLevelUpFee) external onlyOwner {
+        levelUpFee = _newLevelUpFee;
+    }
+
     // View functions don't cost any as when they're called externally by an user.
     // This is because view functions don't change anything on the blockchain, they only read data.
     // It does not need to create a transaction on the blockchain.
