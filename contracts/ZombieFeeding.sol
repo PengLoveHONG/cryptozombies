@@ -3,24 +3,31 @@ pragma solidity ^0.8.0;
 
 import "./ZombieFactory.sol";
 
-// Interface that enables this contract to interact with another contract, here the CryptoKitty
+// Interface that enables this contract to interact with another contract, here the CryptoKitties
 // contract living on the Ethereum blockchain.
 interface KittyInterface {
-  function getKitty(uint256 _id) external view returns (
-    bool isGestating,
-    bool isReady,
-    uint256 cooldownIndex,
-    uint256 nextActionAt,
-    uint256 siringWithId,
-    uint256 birthTime,
-    uint256 matronId,
-    uint256 sireId,
-    uint256 generation,
-    uint256 genes
-  );
+    function getKitty(uint256 _id)
+        external
+        view
+        returns (
+            bool isGestating,
+            bool isReady,
+            uint256 cooldownIndex,
+            uint256 nextActionAt,
+            uint256 siringWithId,
+            uint256 birthTime,
+            uint256 matronId,
+            uint256 sireId,
+            uint256 generation,
+            uint256 genes
+        );
 }
 
 contract ZombieFeeding is ZombieFactory {
+    // Read from the CryptoKitties smart contract
+    address cryptoKittiesAddress = 0x06012c8cf97BEaD5deAe237070F9587f8E7A266d;
+    KittyInterface kittyContract = KittyInterface(cryptoKittiesAddress);
+
     // In Solidity, there are two locations to store variables — in storage and in memory.
     // Storage refers to variables stored permanently on the blockchain while memory variables are
     // temporary, and are erased between external function calls to the contract. It can be seen
@@ -34,7 +41,15 @@ contract ZombieFeeding is ZombieFactory {
         require(msg.sender == zombieToOwner[_zombieId]);
         Zombie storage myZombie = zombies[_zombieId];
         _targetDna = _targetDna % dnaModulus;
-        uint newDna = (myZombie.dna + _targetDna) / 2;
+        uint256 newDna = (myZombie.dna + _targetDna) / 2;
         _createZombie("NoName", newDna);
+    }
+
+    function feedOnKitty(uint256 _zombieId, uint256 _kittyId) public {
+        uint256 kittyDna;
+        // Since the getKitty function returns 10 variables, we can either use all or some of them.
+        // Writing a comma with no variable name means that we don't want to use the returned value.
+        (, , , , , , , , , kittyDna) = kittyContract.getKitty(_kittyId);
+        feedAndMultiply(_zombieId, kittyDna);
     }
 }
