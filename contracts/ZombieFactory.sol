@@ -65,11 +65,11 @@ contract ZombieFactory is Ownable {
     // 2) Function parameters can either be passed as an argument by value or by reference.
     // - By values means that the Solidity compiler creates a new copy of the parameter's value and
     // passes it to your function. This allows your function to modify the value without worrying
-    // that the value of the initial parameter gets changed.
+    // that the value of the initial parameter gets changed. The keyword to use is memory.
     // - By reference means that the function is called with a reference (pointer) to the original
     // variable. Thus, if the function changes the value of the variable received, it also changes
     // the value of the original variable. This is required for all reference types such as arrays,
-    // structs, mappings, and strings.
+    // structs, mappings, and strings. The keyword to use, in this case, is storage.
     // Another convention is to name functions parameters with an underscore to differentiate them
     // from state variables.
     // 3) Functions also have what we call modifiers based on what the function is doing, ie.
