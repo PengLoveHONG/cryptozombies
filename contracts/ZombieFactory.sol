@@ -14,6 +14,9 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/Ownable.sol";
 import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
+// @title A contract that manages transfering zombie ownership
+// @author leovct
+// @dev Compliant with OpenZeppelin's implementation of the ERC721 spec draft
 contract ZombieFactory is Ownable {
     // Use a library in Solidity
     // Note: this is just for learning purpose since the SafeMath library is not needed anymore.
@@ -104,6 +107,11 @@ contract ZombieFactory is Ownable {
     // - view function if the function is only viewing the data and not modifying it.
     // - pure function if the function is not even viewing the data of the application (nor modying
     // it). ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
+    /// @notice Creates a Zombie
+    /// @param _name the name of the zombie
+    /// @param _dna the dna of the zombie
+    /// there can be a return tag if the function returns anything
+    /// there can also be a dev tag to explain extra details to developers
     function _createZombie(string memory _name, uint256 _dna) internal {
         // array.push() adds something at the end of the array.
         // block.timestamp + cooldownTime will equal the current unix timestamp (in seconds) plus
