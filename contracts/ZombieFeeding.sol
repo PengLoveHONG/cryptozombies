@@ -47,6 +47,16 @@ contract ZombieFeeding is ZombieFactory {
         kittyContract = KittyInterface(_address);
     }
 
+    // It's possible to pass a storage pointer to a struct as an argument to a private or internal
+    // function
+    function _triggerCooldown(Zombie storage _zombie) internal {
+        _zombie.readyTime = uint64(block.timestamp + cooldownTime);
+    }
+
+    function _isReady(Zombie storage _zombie) internal view returns (bool) {
+        return _zombie.readyTime <= block.timestamp;
+    }
+
     // In Solidity, there are two locations to store variables — in storage and in memory.
     // Storage refers to variables stored permanently on the blockchain while memory variables are
     // temporary, and are erased between external function calls to the contract. It can be seen
