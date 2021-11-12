@@ -70,7 +70,9 @@ contract ZombieFactory is Ownable {
     // By default, functions are public meaning that anyone (or any other contract) can call the
     // functions of this contract and execute its code. It can make the contract vulnerable to
     // attacks so it's best practice to mark the functions as private by default, and then only
-    // make public some specific functions public. A convention is to start private function names
+    // make public some specific functions public. Private functions can only be called by other
+    // functions inside the smart contract.
+    // A convention is to start private function names
     // with an underscore.
     // On top of that, there are two other keywords: internal and external.
     // - internal is the same as private, except that the function will also be accessible to
@@ -90,8 +92,8 @@ contract ZombieFactory is Ownable {
     // 3) Functions also have what we call modifiers based on what the function is doing, ie.
     // viewing or modifying the data of the application. It is possible to declare a:
     // - view function if the function is only viewing the data and not modifying it.
-    // - pure function if the function is not even viewing the data of the application.
-    //   ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
+    // - pure function if the function is not even viewing the data of the application (nor modying
+    // it). ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
     function _createZombie(string memory _name, uint256 _dna) internal {
         // array.push() adds something at the end of the array.
         // block.timestamp + cooldownTime will equal the current unix timestamp (in seconds) plus
