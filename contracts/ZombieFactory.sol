@@ -54,6 +54,8 @@ contract ZombieFactory is Ownable {
         uint32 level;
         // Cooldown period during which the zombie cannot feed or attack again
         uint64 readyTime;
+        uint16 winCount;
+        uint16 lossCount;
     }
 
     // There are two types of arrays in Solidity: fixed length (uint[2] fixedArray) and dynamic
@@ -103,7 +105,7 @@ contract ZombieFactory is Ownable {
         // "Year 2038" problem, when 32-bit unix timestamps will overflow and break a lot of legacy
         // systems. The second option cost more gas but will last longer over time.
         zombies.push(
-            Zombie(_name, _dna, 1, uint64(block.timestamp + cooldownTime))
+            Zombie(_name, _dna, 1, uint64(block.timestamp + cooldownTime), 0, 0)
         );
         uint256 id = zombies.length - 1;
         // msg.sender is a global variable available to all functions and it refers to the address
