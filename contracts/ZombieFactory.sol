@@ -49,6 +49,11 @@ contract ZombieFactory {
     // attacks so it's best practice to mark the functions as private by default, and then only
     // make public some specific functions public. A convention is to start private function names
     // with an underscore.
+    // On top of that, there are two other keywords: internal and external.
+    // - internal is the same as private, except that the function will also be accessible to
+    // contracts that inherit from this contract.
+    // - external is similar to public, except that the function can only be called outside the
+    // contract - the function can't be called by other functions inside the contract.
     // 2) Function parameters can either be passed as an argument by value or by reference.
     // - By values means that the Solidity compiler creates a new copy of the parameter's value and
     // passes it to your function. This allows your function to modify the value without worrying
@@ -64,7 +69,7 @@ contract ZombieFactory {
     // - view function if the function is only viewing the data and not modifying it.
     // - pure function if the function is not even viewing the data of the application.
     //   ie. function _add(uint a, uint b) private pure returns (uint) { return a + b; }
-    function _createZombie(string memory _name, uint _dna) private {
+    function _createZombie(string memory _name, uint _dna) internal {
         // array.push() adds something at the end of the array
         zombies.push(Zombie(_name, _dna));
         uint id = zombies.length - 1;
