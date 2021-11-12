@@ -1,10 +1,11 @@
 // Define the license of the code
-// SPDX-License-Identifier: UNLICENSED
+//SPDX-License-Identifier: Unlicense
 
 // Define the version of the Solidity compiler to use
-pragma solidity >=0.8.10;
+pragma solidity ^0.8.0;
 
 contract ZombieFactory {
+
     // State variable that will be stored permanently in the Ethereum blockchain.
     // The uint type corresponds to an unsigned integer, meaning its value must be non-negative.
     // Its size is 256 bits but it's possible to declare uints with less bits (uint8, unit16...).
