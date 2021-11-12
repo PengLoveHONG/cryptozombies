@@ -4,6 +4,8 @@ pragma solidity ^0.8.0;
 import "./ZombieFeeding.sol";
 
 contract ZombieHelper is ZombieFeeding {
+    uint256 levelUpFee = 0.001 ether;
+
     // Modifiers can also take arguments
     modifier isOwnedByTheCaller(uint256 _zombieId) {
         require(msg.sender == zombieToOwner[_zombieId]);
@@ -29,6 +31,12 @@ contract ZombieHelper is ZombieFeeding {
         aboveLevel(20, _zombieId)
     {
         zombies[_zombieId].dna = _newDna;
+    }
+
+    // Payable is a modifier function that can receive Ether.
+    function levelUp(uint256 _zombieId) external payable {
+        require(msg.value == levelUpFee);
+        zombies[_zombieId].level++;
     }
 
     // View functions don't cost any as when they're called externally by an user.
