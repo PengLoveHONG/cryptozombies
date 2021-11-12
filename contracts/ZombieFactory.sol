@@ -34,7 +34,7 @@ contract ZombieFactory is Ownable {
     // Its size is 256 bits but it's possible to declare uints with less bits (uint8, unit16...).
     uint256 dnaDigits = 16;
     uint256 dnaModulus = 10**dnaDigits;
-    uint cooldownTime = 1 days;
+    uint256 cooldownTime = 1 days;
 
     // Structs allow to create more complicated data types
     // Inside a struct, it's possible to pack uint variables together to take up less storage. This
@@ -45,7 +45,7 @@ contract ZombieFactory is Ownable {
     // 2) struct X { uint32 a; uint32 c; string b; }
     // Normally there's no benefit to using these sub-types because Solidity reserves 256 bits of
     // storage regardless of the uint size. For example, using uint8 instead of uint (uint256) won't
-    // save you any gas. So why does it save some gas? If you have multiple uints inside a struct, 
+    // save you any gas. So why does it save some gas? If you have multiple uints inside a struct,
     // using a smaller-sized uint when possible will allow Solidity to pack these variables together
     // to take up less storage.
     struct Zombie {
@@ -100,7 +100,9 @@ contract ZombieFactory is Ownable {
         // cast it to uint32 or uint64. The first option cost less gas but this will lead to the
         // "Year 2038" problem, when 32-bit unix timestamps will overflow and break a lot of legacy
         // systems. The second option cost more gas but will last longer over time.
-        zombies.push(Zombie(_name, _dna, 1, uint64(block.timestamp + cooldownTime)));
+        zombies.push(
+            Zombie(_name, _dna, 1, uint64(block.timestamp + cooldownTime))
+        );
         uint256 id = zombies.length - 1;
         // msg.sender is a global variable available to all functions and it refers to the address
         // of the person (or smart contract) who called the current function. Since every contract
