@@ -12,8 +12,16 @@ pragma solidity ^0.8.0;
 // of the smart contract. On top of that, it allows the owner to transfer the ownership to someone
 // else.
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "@openzeppelin/contracts/utils/math/SafeMath.sol";
 
 contract ZombieFactory is Ownable {
+    // Use a library in Solidity
+    // Note: this is just for learning purpose since the SafeMath library is not needed anymore.
+    // Since Solidity 0.8, the compiler has built in overflow checking.
+    // Here is an example on how to use it will the add() method: uint x = 0; x = x.add(1);
+    // it does the same as uint x = 0; x++;
+    using SafeMath for uint256;
+
     // Events are a way for the contract to communicate that something happened on the blockchain
     // to the front-end app, which can be 'listening' for certain events and take action when they
     // happen.
