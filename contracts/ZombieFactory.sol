@@ -6,6 +6,21 @@ pragma solidity ^0.8.0;
 
 contract ZombieFactory {
 
+    // Events are a way for the contract to communicate that something happened on the blockchain
+    // to the front-end app, which can be 'listening' for certain events and take action when they
+    // happen.
+    // They must be declared like this:
+    // event IntegersAdded(uint a, uint b, uint result);
+    // They can be fired in any function like this:
+    // function add(uint _x, uint _y) public pure returns (uint) {
+    //   uint result = _x + _y;
+    //   emit IntegersAdded(_x, _y, result);
+    //   return result;
+    // }
+    // Then the front-end app can listen to the event like this:
+    // MyContract.IntegersAdded((error, result) => {...}); 
+    event NewZombie(uint zombieId, string name, uint dna);
+
     // State variable that will be stored permanently in the Ethereum blockchain.
     // The uint type corresponds to an unsigned integer, meaning its value must be non-negative.
     // Its size is 256 bits but it's possible to declare uints with less bits (uint8, unit16...).
@@ -47,6 +62,8 @@ contract ZombieFactory {
     function _createZombie(string memory _name, uint _dna) private {
         // array.push() adds something at the end of the array
         zombies.push(Zombie(_name, _dna));
+        uint id = zombies.length - 1;
+        emit NewZombie(id, _name, _dna);
     }
 
     // Returns a semi-random unsigned integer.
