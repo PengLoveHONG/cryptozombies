@@ -30,4 +30,29 @@ contract ZombieHelper is ZombieFeeding {
     {
         zombies[_zombieId].dna = _newDna;
     }
+
+    // View functions don't cost any as when they're called externally by an user.
+    // This is because view functions don't change anything on the blockchain, they only read data.
+    // It does not need to create a transaction on the blockchain.
+    // Note: if a view function is called internally from another function in the same contract that is
+    // not a view function, it will still cost gas. This is because the other function creates a transaction
+    // on Ethereum and will still need to be verified from every node.
+    function getZombiesByOwner(address _owner)
+        external
+        view
+        returns (uint256[] memory)
+    {
+        // We declare an array in memory so it does not cost any gas.
+        // We also recreate the array by looping over the zombies array instead of storing the
+        // army of zombies owned by each owner on the blockchain. This cost way less in gas!
+        uint256[] memory result = new uint256[](ownerZombieCount[_owner]);
+        uint256 counter = 0;
+        for (uint256 i = 0; i < zombies.length; i++) {
+            if (zombieToOwner[i] == _owner) {
+                result[counter] = i;
+                counter++;
+            }
+        }
+        return result;
+    }
 }
